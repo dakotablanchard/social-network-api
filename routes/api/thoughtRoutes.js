@@ -7,9 +7,8 @@ const {
     updateThought,
     deleteThought,
     addComment,
-    updateComment,
     deleteComment
-} = require('../../controllers/thought-controller');
+} = require('../../controllers/thoughtController');
 
 // /api/thoughts
 // Gett all thoughts or create a new thought
@@ -22,13 +21,12 @@ router.route('/')
 router.route('/:thoughtId')
     .get(getThoughtById)
     .put(updateThought)
-    .delete(deleteThought);
+    .delete(deleteThought)
+    .post(addComment);
 
 // /api/thoughts/comments/:thoughtId
 // Add a comment to a thought, update a comment, or delete a comment
-router.route('/comments/:thoughtId/')
-    .post(addComment)
-    .put(updateComment)
+router.route('/:thoughtId/:commentId')
     .delete(deleteComment);
 
 module.exports = router;
