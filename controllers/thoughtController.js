@@ -4,7 +4,12 @@ module.exports = {
     // Get all thoughts
     async getAllThoughts(req, res) {
         try {
-            const thoughts = await Thought.find();
+            const thoughts = await Thought.find()
+            .populate({
+                path: 'user',
+                model: 'User',
+                select: 'username'
+            });
 
             res.json(thoughts);
         } catch (err) {
@@ -16,7 +21,13 @@ module.exports = {
     async getThoughtById(req, res) {
         try {
             const thought = await Thought.findOne({ _id: req.params.thoughtId })
-                .select('-__v');
+                .select('-__v')
+                .populate({
+                    path: 'user',
+                    model: 'User',
+                    select: 'username'
+                })
+                .populate('comments');
 
             if (!thought) {
                 return res.status(404).json({ message: 'No thought with that ID' })
