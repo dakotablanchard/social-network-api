@@ -17,6 +17,7 @@ module.exports = {
             return res.status(500).json(err);
         }
     },
+
     // Get a single thought
     async getThoughtById(req, res) {
         try {
@@ -48,12 +49,12 @@ module.exports = {
             return res.status(500).json(err);
         }
     },
+
     // Create a new thought
     async createThought(req, res) {
         try {
             const thought = await Thought.create(req.body);
 
-            // Find the user and update their thoughts array
             const user = await User.findById(req.body.user);
             if (!user) {
                 return res.status(404).json({ message: 'No user with that ID' });
@@ -67,6 +68,7 @@ module.exports = {
             return res.status(500).json(err);
         }
     },
+
     // Update a thought
     async updateThought(req, res) {
         try {
@@ -86,6 +88,7 @@ module.exports = {
             return res.status(500).json(err);
         }
     },
+
     // Delete a thought
     async deleteThought(req, res) {
         try {
@@ -111,6 +114,7 @@ module.exports = {
             return res.status(500).json(err);
         }
     },
+
     // Add a comment to a thought
     async addComment(req, res) {
         try {
@@ -130,6 +134,7 @@ module.exports = {
             return res.status(500).json(err);
         }
     },
+
     // Delete a comment from a thought
     async deleteComment(req, res) {
         try {

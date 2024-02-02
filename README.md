@@ -1,20 +1,37 @@
-# social-network-api
-Back end API for a social networking site
+# API For Social Network
 
-Your challenge is to build an API for a social network web application where users can share their thoughts, react to friends’ thoughts, and create a friend list. You’ll use Express.js for routing, a MongoDB database, and the Mongoose ODM. In addition to using the Express.js and Mongoose packages, you may also optionally use a JavaScript date library of your choice or the native JavaScript Date object to format timestamps.
+## Table Of Contents
+* [Description](#description)
+* [Installation](#installation)
+* [How To Test](#how-to-test)
+* [Demo](#demo)
+* [Tools](#tools)
+* [License](#license)
 
-User Story:
-AS A social media startup
-I WANT an API for my social network that uses a NoSQL database
-SO THAT my website can handle large amounts of unstructured data
+## Description
+Back-end API code for a social networking site.
 
-Acceptance Criteria:
-GIVEN a social network API
-WHEN I enter the command to invoke the application
-THEN my server is started and the Mongoose models are synced to the MongoDB database
-WHEN I open API GET routes in Insomnia for users and thoughts
-THEN the data for each of these routes is displayed in a formatted JSON
-WHEN I test API POST, PUT, and DELETE routes in Insomnia
-THEN I am able to successfully create, update, and delete users and thoughts in my database
-WHEN I test API POST and DELETE routes in Insomnia
-THEN I am able to successfully create and delete comments to thoughts and add and remove friends to a user’s friend list
+## Installation
+1. Make sure to have [MongoDB](https://www.mongodb.com/try/download/community) and [Node.js](https://nodejs.org/en) installed before continuing
+2. Download code files
+3. Navigate your CLI to the folder containing the code files
+4. Run the code `npm i` to install dependencies from package.json
+
+
+## How to Test
+1. Install the application [Insomnia](https://insomnia.rest/products/insomnia)
+2. Navigate your CLI to the folder containing the code files, and run `nodemon server.js` to start the server
+3. Now you are able to test all your CRUD routes within Insomnia
+
+## Demo
+[![thumbnail of video walkthrough](./assets/social-api-thumb.png)](https://drive.google.com/file/d/1rqG_zqOedPnsXZZGFMHubFe5LQTZs7C4/view?usp=sharing)
+
+## Tools
+* [MongoDB](https://www.mongodb.com/try/download/community)
+* [Node.js](https://nodejs.org/en)
+* [Express.js](https://expressjs.com/)
+* [Mongoose](https://www.npmjs.com/package/mongoose)
+* [Insomnia](https://insomnia.rest/products/insomnia)
+
+## License
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)

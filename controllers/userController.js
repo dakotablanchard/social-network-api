@@ -12,6 +12,7 @@ module.exports = {
             return res.status(500).json(err);
         }
     },
+
     // Get a single user
     async getSingleUser(req, res) {
         try {
@@ -28,6 +29,7 @@ module.exports = {
             return res.status(500).json(err);
         }
     },
+
     // Create a new user
     async createUser(req, res) {
         try {
@@ -39,6 +41,7 @@ module.exports = {
             return res.status(500).json(err);
         }
     },
+
     // Update a user
     async updateUser(req, res) {
         try {
@@ -58,6 +61,7 @@ module.exports = {
             return res.status(500).json(err);
         }
     },
+
     // Delete a user
     async deleteUser(req, res) {
         try {
@@ -73,6 +77,7 @@ module.exports = {
             return res.status(500).json(err);
         }
     },
+
     // Add a friend to a user's friend list
     async addFriend(req, res) {
         try {
@@ -98,6 +103,7 @@ module.exports = {
             return res.status(500).json(err);
         }
     },
+
     // Delete a friend from a user's friend list
     async deleteFriend(req, res) {
         try {
