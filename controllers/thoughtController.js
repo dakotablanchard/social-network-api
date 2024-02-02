@@ -1,15 +1,15 @@
-const { Thought } = require('../models');
+const { Thought, User } = require('../models');
 
 module.exports = {
     // Get all thoughts
     async getAllThoughts(req, res) {
         try {
             const thoughts = await Thought.find()
-            .populate({
-                path: 'user',
-                model: 'User',
-                select: 'username'
-            });
+                .populate({
+                    path: 'user',
+                    model: 'User',
+                    select: 'username'
+                });
 
             res.json(thoughts);
         } catch (err) {
@@ -44,6 +44,14 @@ module.exports = {
         try {
             const thought = await Thought.create(req.body);
 
+            // Find the user and update their thoughts array
+            const user = await User.findById(req.body.user);
+            if (!user) {
+                return res.status(404).json({ message: 'No user with that ID' });
+            }
+            user.thoughts.push(thought._id);
+            await user.save();
+
             res.json(thought);
         } catch (err) {
             console.log(err);
@@ -72,13 +80,23 @@ module.exports = {
     // Delete a thought
     async deleteThought(req, res) {
         try {
-            const thought = await Thought.findOneAndDelete({ _id: req.params.thoughtId });
-
+            const thought = await Thought.findById(req.params.thoughtId);
             if (!thought) {
-                return res.status(404).json({ message: 'No thought with that ID' })
+                return res.status(404).json({ message: 'No thought with that ID' });
             }
 
-            res.json(thought);
+            const user = await User.findOne({ thoughts: req.params.thoughtId });
+            if (!user) {
+                return res.status(404).json({ message: 'No user found with this thought' });
+            }
+
+            user.thoughts.pull(req.params.thoughtId);
+
+            await user.save();
+
+            await Thought.findByIdAndRemove(req.params.thoughtId);
+
+            res.json({ message: 'Thought deleted' });
         } catch (err) {
             console.log(err);
             return res.status(500).json(err);
