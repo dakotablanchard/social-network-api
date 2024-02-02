@@ -1,4 +1,4 @@
-const { Thought, User } = require('../models');
+const { Thought, User, Comment } = require('../models');
 
 module.exports = {
     // Get all thoughts
@@ -27,7 +27,16 @@ module.exports = {
                     model: 'User',
                     select: 'username'
                 })
-                .populate('comments');
+                .populate({
+                    path: 'comments',
+                    model: 'Comment',
+                    select: 'text',
+                    populate: {
+                        path: 'user',
+                        model: 'User',
+                        select: 'username'
+                    }
+                });
 
             if (!thought) {
                 return res.status(404).json({ message: 'No thought with that ID' })
@@ -105,13 +114,17 @@ module.exports = {
     // Add a comment to a thought
     async addComment(req, res) {
         try {
-            const thought = await Thought.findOneAndUpdate(
-                { _id: req.params.thoughtId },
-                { $addToSet: { comments: req.body } },
-                { new: true }
-            );
+            const comment = await Comment.create(req.body);
 
-            res.json(thought);
+            const thought = await Thought.findById(req.params.thoughtId);
+            if (!thought) {
+                return res.status(404).json({ message: 'No thought with that ID' });
+            }
+
+            thought.comments.push(comment._id);
+            await thought.save();
+
+            res.json(comment);
         } catch (err) {
             console.log(err);
             return res.status(500).json(err);
@@ -120,9 +133,14 @@ module.exports = {
     // Delete a comment from a thought
     async deleteComment(req, res) {
         try {
+            const comment = await Comment.findByIdAndRemove(req.params.commentId);
+            if (!comment) {
+                return res.status(404).json({ message: 'No comment with that ID' });
+            }
+
             const thought = await Thought.findOneAndUpdate(
                 { _id: req.params.thoughtId },
-                { $pull: { comments: { _id: req.params.commentId } } },
+                { $pull: { comments: req.params.commentId } },
                 { new: true }
             );
 

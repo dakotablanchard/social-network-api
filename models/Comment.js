@@ -2,7 +2,7 @@ const { Schema, model } = require('mongoose');
 
 const commentSchema = new Schema(
     {
-        commentText: {
+        text: {
             type: String,
             required: true,
             min_length: 1,
@@ -12,9 +12,10 @@ const commentSchema = new Schema(
             type: Date,
             default: Date.now
         },
-        username: {
-            type: String,
-            required: true
+        user: {
+            type: Schema.Types.ObjectId,
+            ref : 'User',
+            required: true,
         }
     },
     {
