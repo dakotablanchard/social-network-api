@@ -82,7 +82,13 @@ module.exports = {
                 { new: true }
             );
 
-            if (!user) {
+            const userFriend = await User.findOneAndUpdate(
+                { _id: req.params.friendId },
+                { $addToSet: { friends: req.params.userId } },
+                { new: true }
+            );
+
+            if (!user || !userFriend) {
                 return res.status(404).json({ message: 'No user with that ID' })
             }
 
@@ -101,7 +107,13 @@ module.exports = {
                 { new: true }
             );
 
-            if (!user) {
+            const userFriend = await User.findOneAndUpdate(
+                { _id: req.params.friendId },
+                { $pull: { friends: req.params.userId } },
+                { new: true }
+            );
+
+            if (!user || !userFriend) {
                 return res.status(404).json({ message: 'No user with that ID' })
             }
 
